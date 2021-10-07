@@ -1,16 +1,21 @@
 Package: nemwebR
-Title: What the Package Does (One Line, Title Case)
+Title: AN R package for retrieving NEM market data from the web
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Alex",
+           family = "Leemon",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "alexanderjleemon@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: This package is designed to pull down market data for the NEM (east coast of Australia) for further analysis. 
+             All data is sourced from https://nemweb.com.au. Naming conventions are intended to match those used in AEMO's
+             pdrBatcher software as closely as possible.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Imports: 
+    dplyr,
+    stringr,
+    utils
