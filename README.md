@@ -26,7 +26,7 @@ When dealing with dispatch datasets intervention heirachies have already
 been implemented correctly - All dates and times are formatted in POSIX
 +10 (Australia/Brisbane)
 
-# Five Minute Settlement
+## Five Minute Settlement
 
 Note that as of 1 October 2021 the NEM is dispatched and settled in 5
 minutes. The old 30 minute *trading* datasets are no longer valid for

@@ -31,7 +31,7 @@ There are a few key differences relative to the raw AEMO data:
 - All dates and times are formatted in POSIX +10 (Australia/Brisbane)
 
 
-# Five Minute Settlement
+## Five Minute Settlement
 
 Note that as of 1 October 2021 the NEM is dispatched and settled in 5 minutes. The old 30 minute _trading_ datasets are no longer valid for new data, but exist for historical purposes.  
 
