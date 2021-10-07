@@ -89,13 +89,13 @@ head(prices_2020)
 ## Development
 
 nemwebR is under active development and features may be added or
-removed. There are number of obvious areas for improvment, but the core
+removed. There are number of obvious areas for improvement, but the core
 functions are sufficient for most applications.
 
-Future improvements: - Speed improvements — the functions are currently
+Future improvements: \* Speed improvements – the functions are currently
 built on the base `read.csv()` function, `dplyr::read_csv()` isn’t
 usable because of the AEMO header structure. A read function from the
-Data Table package will likely help improve speed - Formatting challenge
-—- Current reports are released based on AEMO trading days (4:30 - 4:00
-AM) whereas archive datasets are stored based on settlement
+Data Table package will likely help improve speed \* Formatting
+challenge — Current reports are released based on AEMO trading days
+(4:30 - 4:00 AM) whereas archive datasets are stored based on settlement
 (i.e. starting and ending at midnight)
