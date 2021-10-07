@@ -30,6 +30,12 @@ There are a few key differences relative to the raw AEMO data:
 - When dealing with dispatch datasets intervention heirachies have already been implemented correctly
 - All dates and times are formatted in POSIX +10 (Australia/Brisbane)
 
+
+# Five Minute Settlement
+
+Note that as of 1 October 2021 the NEM is dispatched and settled in 5 minutes. The old 30 minute _trading_ datasets are no longer valid for new data, but exist for historical purposes.  
+
+
 ## Installation
 
 Install the current version from [GitHub](https://github.com/) with:
@@ -62,6 +68,6 @@ nemwebR is under active development and features may be added or removed. There 
 
 Future improvements:
 
-* Speed improvements -- the functions are currently built on the base `read.csv()` function, `dplyr::read_csv()` isn't usable because of the AEMO header structure. A read function from the Data Table package will likely help improve speed
+* Speed improvements -- the functions are currently built on the base `read.csv()` function, `dplyr::read_csv()` isn't usable because of the AEMO header structure. A read function from the `Data Table` package will likely improve speed
 
-* Formatting challenge --- Current reports are released based on AEMO trading days (4:30 - 4:00 AM) whereas archive datasets are stored based on settlement (i.e. starting and ending at midnight)
+* Formatting challenge --- Current reports are released based on AEMO trading days (4:30 - 4:00 AM) whereas archive datasets are stored based on settlement (i.e. starting and ending at midnight). This is annoying.

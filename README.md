@@ -26,6 +26,12 @@ When dealing with dispatch datasets intervention heirachies have already
 been implemented correctly - All dates and times are formatted in POSIX
 +10 (Australia/Brisbane)
 
+# Five Minute Settlement
+
+Note that as of 1 October 2021 the NEM is dispatched and settled in 5
+minutes. The old 30 minute *trading* datasets are no longer valid for
+new data, but exist for historical purposes.
+
 ## Installation
 
 Install the current version from [GitHub](https://github.com/) with:
@@ -96,9 +102,10 @@ Future improvements:
 
 -   Speed improvements – the functions are currently built on the base
     `read.csv()` function, `dplyr::read_csv()` isn’t usable because of
-    the AEMO header structure. A read function from the Data Table
-    package will likely help improve speed
+    the AEMO header structure. A read function from the `Data Table`
+    package will likely improve speed
 
 -   Formatting challenge — Current reports are released based on AEMO
     trading days (4:30 - 4:00 AM) whereas archive datasets are stored
-    based on settlement (i.e. starting and ending at midnight)
+    based on settlement (i.e. starting and ending at midnight). This is
+    annoying.
