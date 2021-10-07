@@ -22,7 +22,7 @@ The goal of nemwebR is to enable easy downloading of datasets from the [AEMO NEM
 
 nemwebR has a series of functions for fetching common datasets such as market prices, generator outputs or bids.
 
-The naming and design of these functions is intended to mirror the naming and conventions of the [MMS Data Model Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%20Data%20Model%20Report_files/MMS_2.htm). For clarity, only public datasets (or private; public next day) are available.
+The naming and design of these functions is intended to mirror the naming and conventions of the [MMS Data Model Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%20Data%20Model%20Report_files/MMS_2.htm). For clarity, only _public_ datasets (or _private; public next day_) are available.
 
 There are a few key differences relative to the raw AEMO data:
 - AEMO csv headers and footers are removed so that the data is ready to use
@@ -40,17 +40,18 @@ devtools::install_github("aleemon/nemwebR")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+A basic example to fetch a year of pricing data:
 
 ```{r example}
 library(nemwebR)
 library(purrr)
-## fetch pricing data for 2020
 
+## fetch pricing data for 2020
 input <- seq(20200101, 20201201, by = 100)
 
 prices_2020 <- map_dfr(input, nemwebR_archive_tradingprice)
 
+head(prices_2020)
 
 ```
 
@@ -58,3 +59,7 @@ prices_2020 <- map_dfr(input, nemwebR_archive_tradingprice)
 ## Development
 
 nemwebR is under active development and features may be added or removed. There are number of obvious areas for improvment, but the core functions are sufficient for most applications.
+
+Future improvements:
+- Speed improvements --- the functions are currently built on the base `read.csv()` function, `dplyr::read_csv()` isn't usable because of the AEMO header structure. A read function from the Data Table package will likely help improve speed
+- Formatting challenge ---- Current reports are released based on AEMO trading days (4:30 - 4:00 AM) whereas archive datasets are stored based on settlement (i.e. starting and ending at midnight)
