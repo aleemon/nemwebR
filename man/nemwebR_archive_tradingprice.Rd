@@ -18,7 +18,7 @@ This function returns one month of TRADINGPRICE data from AEMO's NEMWeb as speci
 \details{
 TRADINGPRICE data contains historical 30-minute prices for all regions in the NEM.
 
-Archive data is available from July 2009 up to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_TRADINGPRICE function.
+Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHPRICE function.
 }
 \examples{
 nemwebR_archive_tradingprice(20210101)

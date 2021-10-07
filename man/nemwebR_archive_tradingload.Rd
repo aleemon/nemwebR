@@ -18,7 +18,7 @@ This function returns one month of TRADINGLOAD data from AEMO's NEMWeb as specif
 \details{
 TRADINGLOAD data contains historical 30-minute generation quantities for all scheduled and non-scheduled generators in the NEM.
 
-Archive data is available from July 2009 up to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_TRADINGLOAD function.
+Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHLOAD function.
 }
 \examples{
 nemwebR_archive_tradingload(20210101)

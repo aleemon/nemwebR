@@ -6,12 +6,15 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of nemwebR is to enable easy downloading of datasets from the
+The goal of `nemwebR` is to enable easy downloading of datasets from the
 [AEMO NEM Web
 site](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/market-data-nemweb).
-
-nemwebR has a series of functions for fetching common datasets such as
+`nemwebR` has a series of functions for fetching common datasets such as
 market prices, generator outputs or bids.
+
+`nemwebR` is designed specifically for those looking to access market
+data but without access to the MMS Data Model typically available to
+registered market participants.
 
 The naming and design of these functions is intended to mirror the
 naming and conventions of the [MMS Data Model
@@ -32,6 +35,34 @@ Note that as of 1 October 2021 the NEM is dispatched and settled in 5
 minutes. The old 30 minute *trading* datasets are no longer valid for
 new data, but exist for historical purposes.
 
+## Available Datasets
+
+### Dispatch Data
+
+-   DISPATCH\_FCAS\_REQ – Regional FCAS requirements
+-   DISPATCHLOAD – Scheduled and semi-scheduled generator outputs
+-   DISPATCHPRICE – Regional prices
+-   DISPATCHREGIONSUM – Regional demand and non-scheduled generation
+
+### Generator Registration data
+
+-   DUDETAILSUMMARY
+
+-   DUDETAIL (incomplete)
+
+-   GENUNITS (incomplete)
+
+### Bid Data
+
+### Trading Data (Historical 30-minute data)
+
+Note that these data are no longer updated as of 1 October 2021
+
+-   TRADINGINTERCONNECT – Interconnector flows and limits
+-   TRADINGLOAD – Scheduled and semi-scheduled generator outputs
+-   TRADINGPRICE – Regional prices
+-   TRADINGREGIONSUM – Regional demand and non-scheduled generation
+
 ## Installation
 
 Install the current version from [GitHub](https://github.com/) with:
@@ -49,12 +80,12 @@ A basic example to fetch a year of pricing data:
 library(nemwebR)
 library(purrr)
 
-## fetch pricing data for 2020
-input <- seq(20200101, 20201201, by = 100)
+## fetch 30-minute pricing data for the first 3 months of 2020
+input <- seq(20200101, 20200301, by = 100)
 
-prices_2020 <- map_dfr(input, nemwebR_archive_tradingprice)
+prices_q1_2020 <- map_dfr(input, nemwebR_archive_tradingprice)
 
-head(prices_2020)
+head(prices_q1_2020)
 #>        SETTLEMENTDATE RUNNO REGIONID PERIODID   RRP EEP INVALIDFLAG
 #> 1 2020-01-01 18:30:00     1     NSW1       37 63.57   0           0
 #> 2 2020-01-01 18:30:00     1     VIC1       37 64.14   0           0
@@ -105,7 +136,7 @@ Future improvements:
     the AEMO header structure. A read function from the `Data Table`
     package will likely improve speed
 
--   Formatting challenge — Current reports are released based on AEMO
+-   Formatting challenge – Current reports are released based on AEMO
     trading days (4:30 - 4:00 AM) whereas archive datasets are stored
     based on settlement (i.e. starting and ending at midnight). This is
     annoying.

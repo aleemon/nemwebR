@@ -1,5 +1,5 @@
 Package: nemwebR
-Title: AN R package for retrieving NEM market data from the web
+Title: An R package for retrieving NEM market data from the web
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Alex",
@@ -18,4 +18,6 @@ RoxygenNote: 7.1.2
 Imports: 
     dplyr,
     stringr,
-    utils
+    utils,
+    magrittr,
+    lubridate

@@ -18,7 +18,7 @@ This function returns one month of TRADINGINTERCONNECT data from AEMO's NEMWeb a
 \details{
 TRADINGINTERCONNECT data contains historical 30-minute interconnector limits and MW flows.
 
-Archive data is available from July 2009 up to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_TRADINGINTERCONNECT function.
+Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHINTERCONNECT function.
 }
 \examples{
 nemwebR_archive_tradinginterconnect(20210101)

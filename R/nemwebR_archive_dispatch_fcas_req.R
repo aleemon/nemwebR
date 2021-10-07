@@ -1,10 +1,10 @@
-#' Retrieve archived TRADINGINTERCONNECT data
+#' Retrieve archived DISPATCH_FCAS_REQ data
 #'
-#' This function returns one month of TRADINGINTERCONNECT data from AEMO's NEMWeb as specified by the datestring argument
+#' This function returns one month of DISPATCH_FCAS_REQ data from AEMO's NEMWeb as specified by the datestring argument
 #'
-#' TRADINGINTERCONNECT data contains historical 30-minute interconnector limits and MW flows.
+#' DISPATCH_FCAS_REQ data contains historical 5-minute generation quantities for all scheduled and non-scheduled generators in the NEM.
 #'
-#' Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHINTERCONNECT function.
+#' Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCH_FCAS_REQ function.
 #'
 #'
 #' @param datestring integer of the form YYYYMMDD
@@ -13,9 +13,9 @@
 #' @export
 #'
 #' @examples
-#' nemwebR_archive_tradinginterconnect(20210101)
+#' nemwebR_archive_dispatch_fcas_req(20210101)
 #'
-nemwebR_archive_tradinginterconnect <- function(datestring) {
+nemwebR_archive_dispatch_fcas_req <- function(datestring) {
 
   temp <- tempfile()
   utils::download.file(url = stringr::str_c(
@@ -26,7 +26,7 @@ nemwebR_archive_tradinginterconnect <- function(datestring) {
     "_",
     stringr::str_sub(datestring, start = 5, end = 6),
     "/MMSDM_Historical_Data_SQLLoader/DATA/",
-    "PUBLIC_DVD_TRADINGINTERCONNECT_",
+    "PUBLIC_DVD_DISPATCH_FCAS_REQ_",
     datestring,
     "0000.zip"),
     destfile = temp, mode = "wb")
@@ -39,7 +39,7 @@ nemwebR_archive_tradinginterconnect <- function(datestring) {
   unlink(temp)
 
   unlink(stringr::str_c(
-    "PUBLIC_DVD_TRADINGINTERCONNECT_",
+    "PUBLIC_DVD_DISPATCH_FCAS_REQ_",
     datestring,
     "0000.csv")
   )
@@ -54,12 +54,19 @@ nemwebR_archive_tradinginterconnect <- function(datestring) {
                                          tz = "Australia/Brisbane",
                                          format = "%Y/%m/%d %H:%M:%S")
 
+  data_file$GENCONEFFECTIVEDATE <- as.POSIXct(data_file$GENCONEFFECTIVEDATE,
+                                         tz = "Australia/Brisbane",
+                                         format = "%Y/%m/%d %H:%M:%S")
+
   data_file$LASTCHANGED <- as.POSIXct(data_file$LASTCHANGED,
                                       tz = "Australia/Brisbane",
                                       format = "%Y/%m/%d %H:%M:%S")
 
-  data_file <- dplyr::mutate(data_file, dplyr::across(.cols = c(2, 4:7), .fns = as.numeric))
+  data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(2:3, 8:9, 11:16), .fns = as.numeric))
 
+  # Select for the physical run (intervention = 1)
+  data_file <- data_file %>% dplyr::group_by(SETTLEMENTDATE, REGIONID) %>%
+    dplyr::slice(which.max(INTERVENTION))
 
   return(data_file)
 
