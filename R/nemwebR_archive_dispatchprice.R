@@ -59,8 +59,45 @@ nemwebR_archive_dispatchprice <- function(datestring) {
                                       format = "%Y/%m/%d %H:%M:%S")
 
 
-  ##  Correct the column data types
-  data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(2, 4:10, 12:35, 37:54), .fns = as.numeric))
+  #! There was a change in the file specification from November 2009 onwards
+    # The very old files only have 36 columns
+    # All newer files have additional 18 pre-AP and cumulative price columns [37:54]
+
+  ##  Correct the column data types based on explicitly named date or character type columns
+  data_file <- data_file %>%
+    dplyr::mutate(dplyr::across(.cols = !c(SETTLEMENTDATE, REGIONID, LASTCHANGED, PRICE_STATUS),
+                                .fns = as.numeric)) # check this works
+  # Old implementation:
+  #data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(2, 4:10, 12:35, 37:54), .fns = as.numeric))
+
+
+  ## Add in missing columns to preserve joining with newer datasets (where were they stored previously?)
+  if(ncol(data_file) == 36) {
+
+    missing_columns <- data.frame(
+      PRE_AP_ENERGY_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_RAISE6_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_RAISE60_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_RAISE5MIN_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_RAISEREG_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_LOWER6_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_LOWER60_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_LOWER5MIN_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      PRE_AP_LOWERREG_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_ENERGY_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_RAISE6_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_RAISE60_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_RAISE5MIN_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_RAISEREG_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_LOWER6_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_LOWER60_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_LOWER5MIN_PRICE = as.numeric(rep(NA, nrow(data_file))),
+      CUMUL_PRE_AP_LOWERREG_PRICE = as.numeric(rep(NA, nrow(data_file)))
+    )
+
+    data_file <- dplyr::bind_cols(data_file, missing_columns)
+
+  }
 
 
   ## Correct the intervention naming (could introduce unwanted grouping?)
