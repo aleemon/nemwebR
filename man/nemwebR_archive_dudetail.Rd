@@ -21,6 +21,6 @@ DUDETAIL data contains historical DUID registration details for all registered g
 Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_DUDETAIL function.
 }
 \examples{
-nemwebR_archive_dispatch_dudetail(20210101)
+nemwebR_archive_dudetail(20210101)
 
 }

@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#' nemwebR_archive_dispatch_dudetail(20210101)
+#' nemwebR_archive_dudetail(20210101)
 #'
 nemwebR_archive_dudetail <- function(datestring) {
 
