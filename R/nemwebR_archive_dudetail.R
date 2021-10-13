@@ -15,9 +15,6 @@
 #' @examples
 #' nemwebR_archive_dispatch_dudetail(20210101)
 #'
-
-## Thus function needs correcting - needs to filter for only the currently registered units
-
 nemwebR_archive_dudetail <- function(datestring) {
 
   temp <- tempfile()
@@ -53,17 +50,29 @@ nemwebR_archive_dudetail <- function(datestring) {
   data_file <- utils::head(data_file, -1)
 
 
-  #! Check the column names here
+  data_file$EFFECTIVEDATE <- as.POSIXct(data_file$EFFECTIVEDATE,
+                                         tz = "Australia/Brisbane",
+                                         format = "%Y/%m/%d %H:%M:%S")
 
-  # data_file$SETTLEMENTDATE <- as.POSIXct(data_file$SETTLEMENTDATE,
-  #                                        tz = "Australia/Brisbane",
-  #                                        format = "%Y/%m/%d %H:%M:%S")
-  #
-  # data_file$LASTCHANGED <- as.POSIXct(data_file$LASTCHANGED,
-  #                                     tz = "Australia/Brisbane",
-  #                                     format = "%Y/%m/%d %H:%M:%S")
+  data_file$AUTHORISEDDATE <- as.POSIXct(data_file$AUTHORISEDDATE,
+                                        tz = "Australia/Brisbane",
+                                        format = "%Y/%m/%d %H:%M:%S")
 
-  #data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(2, 4:15, 17:20), .fns = as.numeric))
+  data_file$LASTCHANGED <- as.POSIXct(data_file$LASTCHANGED,
+                                      tz = "Australia/Brisbane",
+                                      format = "%Y/%m/%d %H:%M:%S")
+
+
+  data_file <- data_file %>%
+    dplyr::mutate(dplyr::across(
+      .cols = c(VERSIONNO, VOLTLEVEL, REGISTEREDCAPACITY, MAXCAPACITY, MAXRATEOFCHANGEUP, MAXRATEOFCHANGEDOWN),
+      .fns = as.numeric))
+
+  # Filter only the most recent registration details (should be 1:1 DUID to row relationship)
+  data_file <- data_file %>%
+    dplyr::group_by(DUID) %>%
+    dplyr::slice(which.max(AUTHORISEDDATE)) %>%
+    dplyr::ungroup()
 
 
   return(data_file)

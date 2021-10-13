@@ -2,7 +2,7 @@
 #'
 #' This function returns one month of GENUNITS data from AEMO's NEMWeb as specified by the datestring argument
 #'
-#' GENUNITS data contains historical generation units registration details.
+#' GENUNITS data contains historical generation unit registration details, including fuel type and CO2 emissions information.
 #'
 #' Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_GENUNITS function.
 #'
@@ -15,9 +15,6 @@
 #' @examples
 #' nemwebR_archive_dispatch_genunits(20210101)
 #'
-
-## Thus function needs correcting - needs to filter for only the currently registered units
-
 nemwebR_archive_genunits <- function(datestring) {
 
   temp <- tempfile()
@@ -53,17 +50,18 @@ nemwebR_archive_genunits <- function(datestring) {
   data_file <- utils::head(data_file, -1)
 
 
-  #! Check these calls - are the column references correct?
+  ## Remove deprecated columns
+  data_file <- data_file %>% dplyr::select(!c(SETLOSSFACTOR, SPINNINGFLAG))
 
-  # data_file$SETTLEMENTDATE <- as.POSIXct(data_file$SETTLEMENTDATE,
-  #                                        tz = "Australia/Brisbane",
-  #                                        format = "%Y/%m/%d %H:%M:%S")
-  #
-  # data_file$LASTCHANGED <- as.POSIXct(data_file$LASTCHANGED,
-  #                                     tz = "Australia/Brisbane",
-  #                                     format = "%Y/%m/%d %H:%M:%S")
-  #
-  # data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(2, 4:15, 17:20), .fns = as.numeric))
+
+  ## Correct data types
+  data_file$LASTCHANGED <- as.POSIXct(data_file$LASTCHANGED,
+                                      tz = "Australia/Brisbane",
+                                      format = "%Y/%m/%d %H:%M:%S")
+
+  data_file <- data_file %>%
+    dplyr::mutate(dplyr::across(.cols = c(VOLTLEVEL, REGISTEREDCAPACITY, MAXCAPACITY, CO2E_EMISSIONS_FACTOR),
+                                .fns = as.numeric))
 
 
   return(data_file)

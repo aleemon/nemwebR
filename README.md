@@ -22,20 +22,20 @@ Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%
 For clarity, only *public* datasets (or *private; public next day*) are
 available.
 
-There are a few key differences relative to the raw AEMO data: - AEMO
-csv headers and footers are removed so that the data is ready to use -
-Empty and deprecated columns are stripped out to keep the data cleaner -
-When dealing with dispatch datasets intervention heirachies have already
-been implemented correctly - All dates and times are formatted in POSIX
-+10 (Australia/Brisbane)
+There are a few key differences relative to the raw AEMO data: \* AEMO
+csv headers and footers are removed so that the data is ready to use \*
+Empty and deprecated columns are stripped out to keep the final data
+cleaner \* When dealing with dispatch datasets intervention heirachies
+have already been implemented correctly \* All dates and times are
+formatted in POSIX +10 (Australia/Brisbane)
 
 ## Five Minute Settlement
 
 Note that as of 1 October 2021 the NEM is dispatched and settled in 5
-minutes. The old 30 minute *trading* datasets are no longer valid for
-new data, but exist for historical purposes.
+minute intervals. The old 30 minute interval *trading* datasets are no
+longer valid for new data, but exist for historical purposes.
 
-## Available Datasets
+## Available Datasets - Archive
 
 ### Dispatch Data
 
@@ -46,13 +46,19 @@ new data, but exist for historical purposes.
 
 ### Generator Registration data
 
--   DUDETAILSUMMARY
-
--   DUDETAIL (incomplete)
-
--   GENUNITS (incomplete)
+-   DUDETAILSUMMARY – Summary of registration details for all registered
+    generators
+-   DUDETAIL – Registration details for all registered generators
+-   GENUNITS – Summary of individual unit registration details,
+    including fuel type and CO<sub>2</sub> emission information
 
 ### Bid Data
+
+-   BIDDAYOFFER – Bid price band data for energy and FCAS markets
+    submitted by generators
+-   BIDPEROFFER – Bid generation volumes for energy and FCAS markets
+    submitted by generators
+-   BIDDUIDDETAILS – Enablement levels and FCAS trapezium
 
 ### Trading Data (Historical 30-minute data)
 
@@ -62,6 +68,10 @@ Note that these data are no longer updated as of 1 October 2021
 -   TRADINGLOAD – Scheduled and semi-scheduled generator outputs
 -   TRADINGPRICE – Regional prices
 -   TRADINGREGIONSUM – Regional demand and non-scheduled generation
+
+## Available Datasets - Current
+
+-   DISPATCHPRICE (incomplete)
 
 ## Installation
 
@@ -74,7 +84,7 @@ devtools::install_github("aleemon/nemwebR")
 
 ## Example
 
-A basic example to fetch a year of pricing data:
+A basic example of fetching pricing data:
 
 ``` r
 library(nemwebR)

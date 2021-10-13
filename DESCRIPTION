@@ -20,4 +20,6 @@ Imports:
     stringr,
     utils,
     magrittr,
-    lubridate
+    lubridate,
+    rvest,
+    purrr

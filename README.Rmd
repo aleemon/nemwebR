@@ -25,18 +25,18 @@ The goal of `nemwebR` is to enable easy downloading of datasets from the [AEMO N
 The naming and design of these functions is intended to mirror the naming and conventions of the [MMS Data Model Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%20Data%20Model%20Report_files/MMS_2.htm). For clarity, only _public_ datasets (or _private; public next day_) are available.
 
 There are a few key differences relative to the raw AEMO data:
-- AEMO csv headers and footers are removed so that the data is ready to use
-- Empty and deprecated columns are stripped out to keep the data cleaner
-- When dealing with dispatch datasets intervention heirachies have already been implemented correctly
-- All dates and times are formatted in POSIX +10 (Australia/Brisbane)
+* AEMO csv headers and footers are removed so that the data is ready to use
+* Empty and deprecated columns are stripped out to keep the final data cleaner
+* When dealing with dispatch datasets intervention heirachies have already been implemented correctly
+* All dates and times are formatted in POSIX +10 (Australia/Brisbane)
 
 
 ## Five Minute Settlement
 
-Note that as of 1 October 2021 the NEM is dispatched and settled in 5 minutes. The old 30 minute _trading_ datasets are no longer valid for new data, but exist for historical purposes.  
+Note that as of 1 October 2021 the NEM is dispatched and settled in 5 minute intervals. The old 30 minute interval _trading_ datasets are no longer valid for new data, but exist for historical purposes.  
 
 
-## Available Datasets
+## Available Datasets - Archive
 
 ### Dispatch Data
 * DISPATCH_FCAS_REQ -- Regional FCAS requirements
@@ -46,13 +46,15 @@ Note that as of 1 October 2021 the NEM is dispatched and settled in 5 minutes. T
 
 
 ### Generator Registration data
-* DUDETAILSUMMARY
-
-* DUDETAIL (incomplete)
-* GENUNITS (incomplete)
+* DUDETAILSUMMARY -- Summary of registration details for all registered generators
+* DUDETAIL -- Registration details for all registered generators
+* GENUNITS -- Summary of individual unit registration details, including fuel type and CO~2~ emission information
 
 ### Bid Data
 
+* BIDDAYOFFER -- Bid price band data for energy and FCAS markets submitted by generators
+* BIDPEROFFER -- Bid generation volumes for energy and FCAS markets submitted by generators
+* BIDDUIDDETAILS -- Enablement levels and FCAS trapezium 
 
 
 ### Trading Data (Historical 30-minute data)
@@ -65,6 +67,11 @@ Note that these data are no longer updated as of 1 October 2021
 
 
 
+## Available Datasets - Current
+
+* DISPATCHPRICE (incomplete)
+
+
 ## Installation
 
 Install the current version from [GitHub](https://github.com/) with:
@@ -75,7 +82,7 @@ devtools::install_github("aleemon/nemwebR")
 ```
 ## Example
 
-A basic example to fetch a year of pricing data:
+A basic example of fetching pricing data:
 
 ```{r example}
 library(nemwebR)

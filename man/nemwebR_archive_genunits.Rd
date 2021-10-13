@@ -16,7 +16,7 @@ A data frame
 This function returns one month of GENUNITS data from AEMO's NEMWeb as specified by the datestring argument
 }
 \details{
-GENUNITS data contains historical generation units registration details.
+GENUNITS data contains historical generation unit registration details, including fuel type and CO2 emissions information.
 
 Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_GENUNITS function.
 }
