@@ -14,7 +14,9 @@ market prices, generator outputs or bids.
 
 `nemwebR` is designed specifically for those looking to access market
 data but without access to the MMS Data Model typically available to
-registered market participants.
+registered market participants. The likely user is someone looking to
+run ad hoc analyses on NEM data, primarily on historical (&gt; 2 months
+old) datasets.
 
 The naming and design of these functions is intended to mirror the
 naming and conventions of the [MMS Data Model
@@ -22,18 +24,43 @@ Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%
 For clarity, only *public* datasets (or *private; public next day*) are
 available.
 
-There are a few key differences relative to the raw AEMO data: \* AEMO
-csv headers and footers are removed so that the data is ready to use \*
-Empty and deprecated columns are stripped out to keep the final data
-cleaner \* When dealing with dispatch datasets intervention heirachies
-have already been implemented correctly \* All dates and times are
-formatted in POSIX +10 (Australia/Brisbane)
+## Notes
+
+“Why does this package exist if I can just download the csv files from
+NEMWeb?” Great question. Here’s why:
+
+-   AEMO csv headers and footers are removed so that the data is ready
+    to use in a clean tabular format
+-   csv files containing multiple datasets are split out into their
+    consituent datasets
+-   Empty and deprecated columns are stripped out to keep the final data
+    cleaner
+-   When dealing with dispatch datasets intervention hierarchies have
+    been implemented correctly
+-   All dates and times are formatted in POSIX +10 timezone
+    (Australia/Brisbane)
+-   Data types have all been strictly enforced
+
+Depending on the volume of data and update frequency in a given
+dataset,archive (historical) data usually starts from \~ 2 weeks prior
+and stretches back to July 2009. Current (recent) data usually stretches
+back \~ 1 year. The archive functions are typically faster and more
+efficient than the current functions, so try to use them where possible.
+
+For high volume versioned datasets (i.e. the predispatch and bidding
+data) the current data contains all versions whereas the archive data
+only keeps the latest value (i.e. the current data retrieves BIDDAYOFFER
+whereas the archive retrieves BIDDAYOFFER\_D). Unfortunately this
+somewhat limits the value of analysis from these datasets and is just
+one of many quirks of the data available on NEMWeb.
 
 ## Five Minute Settlement
 
-Note that as of 1 October 2021 the NEM is dispatched and settled in 5
-minute intervals. The old 30 minute interval *trading* datasets are no
-longer valid for new data, but exist for historical purposes.
+As of 1 October 2021 the NEM is dispatched and settled in 5 minute
+intervals (previously the NEM was dispatched in 5 minute intervals and
+settled on 30 minute intervals). The old 30 minute interval *trading*
+datasets are no longer valid for new data, but exist for historical
+purposes.
 
 ## Available Datasets - Archive
 
@@ -58,20 +85,25 @@ longer valid for new data, but exist for historical purposes.
     submitted by generators
 -   BIDPEROFFER – Bid generation volumes for energy and FCAS markets
     submitted by generators
--   BIDDUIDDETAILS – Enablement levels and FCAS trapezium
+-   BIDDUIDDETAILS – Enablement levels and FCAS trapezium ffor each
+    generator
 
 ### Trading Data (Historical 30-minute data)
 
-Note that these data are no longer updated as of 1 October 2021
+*Note that these data are no longer updated as of 1 October 2021*
 
 -   TRADINGINTERCONNECT – Interconnector flows and limits
 -   TRADINGLOAD – Scheduled and semi-scheduled generator outputs
 -   TRADINGPRICE – Regional prices
 -   TRADINGREGIONSUM – Regional demand and non-scheduled generation
 
-### Available Datasets - Current
+## Available Datasets - Current
 
 -   DISPATCHPRICE (incomplete)
+
+## Non-NEMWeb data
+
+-   Net System Load Profiles – Annual NSLP data for 2002 onwards
 
 ## Installation
 
@@ -84,7 +116,7 @@ devtools::install_github("aleemon/nemwebR")
 
 ## Example
 
-A basic example of fetching pricing data:
+A (very) basic example of fetching pricing data:
 
 ``` r
 library(nemwebR)
@@ -137,16 +169,52 @@ head(prices_q1_2020)
 
 nemwebR is under active development and features may be added or
 removed. There are number of obvious areas for improvement, but the core
-functions are sufficient for most applications.
+functions are sufficient for many analysis applications.
 
 Future improvements:
 
 -   Speed improvements – the functions are currently built on the base
-    `read.csv()` function, `dplyr::read_csv()` isn’t usable because of
-    the AEMO header structure. A read function from the `Data Table`
-    package will likely improve speed
+    `read.csv()` function which is significantly slower than either
+    `dplyr::read_csv()` or `data.table::fread()`. Unfortunately these
+    functions don’t play nice with the awkward formatting of AEMO csv
+    files.
 
--   Formatting challenge – Current reports are released based on AEMO
-    trading days (4:30 - 4:00 AM) whereas archive datasets are stored
-    based on settlement (i.e. starting and ending at midnight). This is
-    annoying.
+-   Efficiently pulling in report data from across the archive and
+    current datasets
+
+-   Change the datestring entry over to a more logical YYYYMM format
+
+-   Improve the error handling and error messaging
+
+### Future Datasets
+
+-   BIDDAYOFFER\_D (Probably not)
+-   BIDPEROFFER\_D (Probably not)
+-   DISPATCHCONSTRAINT
+-   DISPATCHINTERCONNECTORRES
+-   DISPATCHCASE\_OCD
+-   CONSTRAINTRELAXATION\_OCD
+-   GENCONDATA
+-   GENCONSET
+-   GENCONSETINVOKE
+-   GENERICCONSTRAINTRHS
+-   GENERICEQUATIONDESC
+-   GENERICEQUATIONRHS
+-   INTERCONNECTOR
+-   INTERCONNECTORCONSTRAINT
+-   LOSSFACTORMODEL
+-   LOSSMODEL
+-   MARKET\_PRICE\_THRESHOLDS
+-   MARKETFEE
+-   MARKETFEEDATA
+-   MARKETNOTICEDATA
+-   MARKETNOTICETYPE
+-   MTPASA datasates
+-   P5MIN datasets
+-   PDPASA datasets
+-   PREDISPATCH datasets
+-   RESIDUE datasets
+-   ROOFTOP\_PV\_ACTUAL
+-   ROOFTOP\_PV\_FORECAST
+-   STPASA datasets
+-   TRANSMISSIONLOSSFACTOR
