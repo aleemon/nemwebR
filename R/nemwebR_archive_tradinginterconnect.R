@@ -7,13 +7,13 @@
 #' Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHINTERCONNECT function.
 #'
 #'
-#' @param datestring integer of the form YYYYMMDD
+#' @param datestring integer of the form YYYYMM
 #'
 #' @return A data frame
 #' @export
 #'
 #' @examples
-#' nemwebR_archive_tradinginterconnect(20210101)
+#' nemwebR_archive_tradinginterconnect(202101)
 #'
 nemwebR_archive_tradinginterconnect <- function(datestring) {
 
@@ -28,8 +28,8 @@ nemwebR_archive_tradinginterconnect <- function(datestring) {
     "/MMSDM_Historical_Data_SQLLoader/DATA/",
     "PUBLIC_DVD_TRADINGINTERCONNECT_",
     datestring,
-    "0000.zip"),
-    destfile = temp, mode = "wb")
+    "010000.zip"),
+    destfile = temp, mode = "wb", quiet = TRUE)
 
 
   data_file <- utils::read.csv(utils::unzip(temp), header = FALSE)
@@ -41,7 +41,7 @@ nemwebR_archive_tradinginterconnect <- function(datestring) {
   unlink(stringr::str_c(
     "PUBLIC_DVD_TRADINGINTERCONNECT_",
     datestring,
-    "0000.csv")
+    "010000.csv")
   )
 
 

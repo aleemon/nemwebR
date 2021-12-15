@@ -188,8 +188,6 @@ Future improvements:
 
 ### Future Datasets
 
--   BIDDAYOFFER\_D (Probably not)
--   BIDPEROFFER\_D (Probably not)
 -   DISPATCHCONSTRAINT
 -   DISPATCHINTERCONNECTORRES
 -   DISPATCHCASE\_OCD

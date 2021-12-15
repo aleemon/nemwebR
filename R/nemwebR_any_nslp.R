@@ -169,8 +169,8 @@ nemwebR_any_nlsp <- function(year) {
     nslp_filename <- filenames[str_detect(filenames, regex("nslp", ignore_case = TRUE))]
     cload_filename <- filenames[str_detect(filenames, regex("cload", ignore_case = TRUE))]
 
-    nslp_data <- read.csv(utils::unzip(temp_file, nslp_filename))
-    cload_data <- read.csv(utils::unzip(temp_file, cload_filename))
+    nslp_data <- utils::read.csv(utils::unzip(temp_file, nslp_filename))
+    cload_data <- utils::read.csv(utils::unzip(temp_file, cload_filename))
 
 
     ## Drop the SeqNo, Locked & SettlementCase columns
