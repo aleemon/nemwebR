@@ -62,7 +62,30 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
                                       tz = "Australia/Brisbane",
                                       format = "%Y/%m/%d %H:%M:%S")
 
-  data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(10, 12:14, 16:20), .fns = as.numeric))
+  ## Older files only have 19 columns, the newer files have 24 columns. At least the column names are consistent
+
+  ## Check is column exists, add a dummy column into the data
+  missing_columns <- setdiff(
+    colnames(data_file),
+    c("MIN_RAMP_RATE_UP", "MIN_RAMP_RATE_DOWN", "MAX_RAMP_RATE_UP", "MAX_RAMP_RATE_DOWN", "IS_AGGREGATED")
+  )
+
+  if(length(missing_columns != 0)) {
+
+    data_file[ , missing_columns] <- NA
+  }
+
+
+  data_file <- data_file %>% dplyr::mutate(
+    dplyr::across(
+      .cols = c(TRANSMISSIONLOSSFACTOR, DISTRIBUTIONLOSSFACTOR, MINIMUM_ENERGY_PRICE, MAXIMUM_ENERGY_PRICE,
+                MIN_RAMP_RATE_UP, MIN_RAMP_RATE_DOWN, MAX_RAMP_RATE_UP, MAX_RAMP_RATE_DOWN, IS_AGGREGATED)
+      )
+    )
+
+
+  ## Old code:
+  #data_file <- data_file %>% dplyr::mutate(dplyr::across(.cols = c(10, 12:14, 16:20), .fns = as.numeric))
 
 
   ## Filter for current units only

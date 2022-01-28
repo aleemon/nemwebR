@@ -22,4 +22,6 @@ Imports:
     magrittr,
     lubridate,
     rvest,
-    purrr
+    purrr,
+    tidyr,
+    XML
