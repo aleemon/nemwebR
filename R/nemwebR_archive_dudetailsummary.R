@@ -66,12 +66,11 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
 
   ## Check is column exists, add a dummy column into the data
   missing_columns <- setdiff(
-    colnames(data_file),
-    c("MIN_RAMP_RATE_UP", "MIN_RAMP_RATE_DOWN", "MAX_RAMP_RATE_UP", "MAX_RAMP_RATE_DOWN", "IS_AGGREGATED")
+    c("MIN_RAMP_RATE_UP", "MIN_RAMP_RATE_DOWN", "MAX_RAMP_RATE_UP", "MAX_RAMP_RATE_DOWN", "IS_AGGREGATED"),
+    colnames(data_file)
   )
 
   if(length(missing_columns != 0)) {
-
     data_file[ , missing_columns] <- NA
   }
 
