@@ -7,7 +7,7 @@
 nemwebR_archive_bidduiddetails(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -18,9 +18,9 @@ This function returns one month of BIDDUIDDETAILS data from AEMO's NEMWeb as spe
 \details{
 BIDDUIDDETAILS data contains relevant minimum and maximum enablement quantities and FCAS trapezium angles for all scheduled and non-scheduled generators in the NEM.
 
-Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_BIDDUIDDETAILS function.
+Archive data is available from July 2009 to approximately two weeks ago. In order to retrieve newer data you will need to use the nemwebR_current_BIDDUIDDETAILS function.
 }
 \examples{
-nemwebR_archive_bidduiddetails(20210101)
+nemwebR_archive_bidduiddetails(202101)
 
 }

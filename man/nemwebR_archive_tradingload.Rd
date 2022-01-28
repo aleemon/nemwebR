@@ -7,7 +7,7 @@
 nemwebR_archive_tradingload(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -21,6 +21,6 @@ TRADINGLOAD data contains historical 30-minute generation quantities for all sch
 Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHLOAD function.
 }
 \examples{
-nemwebR_archive_tradingload(20210101)
+nemwebR_archive_tradingload(202101)
 
 }

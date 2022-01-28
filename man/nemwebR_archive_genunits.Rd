@@ -7,7 +7,7 @@
 nemwebR_archive_genunits(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -18,9 +18,9 @@ This function returns one month of GENUNITS data from AEMO's NEMWeb as specified
 \details{
 GENUNITS data contains historical generation unit registration details, including fuel type and CO2 emissions information.
 
-Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_GENUNITS function.
+Archive data is available from July 2009 to approximately two weeks ago. In order to retrieve newer data you will need to use the nemwebR_current_GENUNITS function.
 }
 \examples{
-nemwebR_archive_dispatch_genunits(20210101)
+nemwebR_archive_dispatch_genunits(202101)
 
 }

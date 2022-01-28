@@ -7,7 +7,7 @@
 nemwebR_archive_dispatch_fcas_req(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -21,6 +21,6 @@ DISPATCH_FCAS_REQ data contains historical 5-minute generation quantities for al
 Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCH_FCAS_REQ function.
 }
 \examples{
-nemwebR_archive_dispatch_fcas_req(20210101)
+nemwebR_archive_dispatch_fcas_req(202101)
 
 }

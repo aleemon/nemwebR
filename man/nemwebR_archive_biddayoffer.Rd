@@ -7,7 +7,7 @@
 nemwebR_archive_biddayoffer(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -18,9 +18,9 @@ This function returns one month of BIDDAYOFFER data from AEMO's NEMWeb as specif
 \details{
 BIDDAYOFFER data contains bid price band data for all scheduled and non-scheduled generators in the NEM.
 
-Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_BIDDAYOFFER function.
+Archive data is available from July 2009 to approximately two weeks ago. In order to retrieve newer data you will need to use the nemwebR_current_BIDDAYOFFER function.
 }
 \examples{
-nemwebR_archive_biddayoffer(20210101)
+nemwebR_archive_biddayoffer(202101)
 
 }

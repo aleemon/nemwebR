@@ -7,7 +7,7 @@
 nemwebR_archive_tradingprice(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -21,6 +21,6 @@ TRADINGPRICE data contains historical 30-minute prices for all regions in the NE
 Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHPRICE function.
 }
 \examples{
-nemwebR_archive_tradingprice(20210101)
+nemwebR_archive_tradingprice(202101)
 
 }

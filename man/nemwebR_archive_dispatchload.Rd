@@ -7,7 +7,7 @@
 nemwebR_archive_dispatchload(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -18,9 +18,9 @@ This function returns one month of DISPATCHLOAD data from AEMO's NEMWeb as speci
 \details{
 DISPATCHLOAD data contains historical 5-minute generation quantities for all scheduled and non-scheduled generators in the NEM.
 
-Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHLOAD function.
+Archive data is available from July 2009 to approximately two weeks ago. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHLOAD function.
 }
 \examples{
-nemwebR_archive_dispatchload(20210101)
+nemwebR_archive_dispatchload(202101)
 
 }

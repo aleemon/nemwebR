@@ -7,7 +7,7 @@
 nemwebR_archive_tradingregionsum(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -21,6 +21,6 @@ TRADINGREGIONSUM data contains historical 30-minute demand and non-scheduled gen
 Archive data is available from July 2009 to 30 September 2021 when 5MS was implemented. In order to retrieve newer data you will need to use the nemwebR_current_DISPATCHREGIONSUM function.
 }
 \examples{
-nemwebR_archive_tradingregionsum(20210101)
+nemwebR_archive_tradingregionsum(202101)
 
 }

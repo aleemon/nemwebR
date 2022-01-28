@@ -7,7 +7,7 @@
 nemwebR_archive_dudetailsummary(datestring)
 }
 \arguments{
-\item{datestring}{integer of the form YYYYMMDD}
+\item{datestring}{integer of the form YYYYMM}
 }
 \value{
 A data frame
@@ -18,9 +18,9 @@ This function returns one month of DUDETAILSUMMARY data from AEMO's NEMWeb as sp
 \details{
 DUDETAILSUMMARY data contains historical DUID registration details for all registered generators in the NEM.
 
-Archive data is available from July 2009 to approximately one month ago. In order to retrieve newer data you will need to use the nemwebR_current_DUDETAILSUMMARY function.
+Archive data is available from July 2009 to approximately two weeks ago. In order to retrieve newer data you will need to use the nemwebR_current_DUDETAILSUMMARY function.
 }
 \examples{
-nemwebR_archive_dudetailsummary(20210101)
+nemwebR_archive_dudetailsummary(202101)
 
 }
