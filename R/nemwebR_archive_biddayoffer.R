@@ -62,8 +62,10 @@ nemwebR_archive_biddayoffer <- function(datestring) {
                                       tz = "Australia/Brisbane",
                                       format = "%Y/%m/%d %H:%M:%S")
 
+
   data_file <- data_file %>%
-    dplyr::mutate(dplyr::across(.cols = !c(DUID, BIDTYPE, SETTLEMENTDATE, OFFERDATE, LASTCHANGED),
+    dplyr::mutate(dplyr::across(.cols = !c(DUID, BIDTYPE, SETTLEMENTDATE, OFFERDATE, PARTICIPANTID, REBIDEXPLANATION,
+                                           LASTCHANGED, ENTRYTYPE),
                                 .fns = as.numeric))
 
 
