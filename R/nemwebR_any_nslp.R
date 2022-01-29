@@ -14,7 +14,7 @@
 #' @examples
 #' nemwebR_any_nslp(2019)
 #'
-nemwebR_any_nlsp <- function(year) {
+nemwebR_any_nslp <- function(year) {
 
   current_year <- lubridate::year(Sys.Date())
 
@@ -166,8 +166,8 @@ nemwebR_any_nlsp <- function(year) {
 
     filenames <- utils::unzip(temp_file, list = TRUE)$Name # Get the names of the contents in the zip file
 
-    nslp_filename <- filenames[str_detect(filenames, regex("nslp", ignore_case = TRUE))]
-    cload_filename <- filenames[str_detect(filenames, regex("cload", ignore_case = TRUE))]
+    nslp_filename <- filenames[stringr::str_detect(filenames, stringr::regex("nslp", ignore_case = TRUE))]
+    cload_filename <- filenames[stringr::str_detect(filenames, stringr::regex("cload", ignore_case = TRUE))]
 
     nslp_data <- utils::read.csv(utils::unzip(temp_file, nslp_filename))
     cload_data <- utils::read.csv(utils::unzip(temp_file, cload_filename))

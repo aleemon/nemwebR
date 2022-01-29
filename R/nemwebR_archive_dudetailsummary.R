@@ -70,7 +70,7 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
     colnames(data_file)
   )
 
-  if(length(missing_columns != 0)) {
+  if(length(missing_columns) != 0) {
     data_file[ , missing_columns] <- NA
   }
 

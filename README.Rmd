@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 The goal of `nemwebR` is to enable easy downloading of datasets from the [AEMO NEM Web site](https://www.aemo.com.au/energy-systems/electricity/national-electricity-market-nem/data-nem/market-data-nemweb). `nemwebR` has a series of functions for fetching common datasets such as market prices, generator outputs or bids.
 
-`nemwebR` is designed specifically for those looking to access market data but without access to the MMS Data Model typically available to registered market participants. The likely user is someone looking to run ad hoc analyses on NEM data, primarily on historical (> 2 months old) datasets.
+`nemwebR` is designed specifically for those looking to access market data but without access to the MMS Data Model typically available to registered market participants. The likely user is someone looking to run ad hoc analyses on NEM data, primarily on historical datasets (> 2 weeks old).
 
 The naming and design of these functions is intended to mirror the naming and conventions of the [MMS Data Model Report](http://nemweb.com.au/Reports/Current/MMSDataModelReport/Electricity/MMS%20Data%20Model%20Report_files/MMS_2.htm). For clarity, only _public_ datasets (or _private; public next day_) are available.
 
@@ -33,12 +33,11 @@ The naming and design of these functions is intended to mirror the naming and co
 * Empty and deprecated columns are stripped out to keep the final data cleaner
 * When dealing with dispatch datasets intervention hierarchies have been implemented correctly
 * All dates and times are formatted in POSIX +10 timezone (Australia/Brisbane)
-* Data types have all been strictly enforced
+* Data types have all been strictly enforced (i.e. dates as POSIX, numeric where they should be)
 
 
 Depending on the volume of data and update frequency in a given dataset,archive (historical) data usually starts from ~ 2 weeks prior and stretches back to July 2009. Current (recent) data usually stretches back ~ 1 year. The archive functions are typically faster and more efficient than the current functions, so try to use them where possible.
 
-For high volume versioned datasets (i.e. the predispatch and bidding data) the current data contains all versions whereas the archive data only keeps the latest value (i.e. the current data retrieves BIDDAYOFFER whereas the archive retrieves BIDDAYOFFER_D). Unfortunately this somewhat limits the value of analysis from these datasets and is just one of many quirks of the data available on NEMWeb. 
 
 ## Five Minute Settlement
 
@@ -66,7 +65,7 @@ As of 1 October 2021 the NEM is dispatched and settled in 5 minute intervals (pr
 
 
 ### Trading Data (Historical 30-minute data)
-_Note that these data are no longer updated as of 1 October 2021_
+_Note that these data are no longer updated as of 1 October 2021 due to 5MS_
 
 * TRADINGINTERCONNECT -- Interconnector flows and limits
 * TRADINGLOAD -- Scheduled and semi-scheduled generator outputs
@@ -77,7 +76,7 @@ _Note that these data are no longer updated as of 1 October 2021_
 
 ## Available Datasets - Current
 
-* DISPATCHPRICE (incomplete)
+* DISPATCHPRICE (incomplete, messy)
 
 
 
@@ -89,6 +88,8 @@ _Note that these data are no longer updated as of 1 October 2021_
 
 ## Installation
 
+Currently only on GitHub, if the package becomes stable enough it might find its way to CRAN.
+
 Install the current version from [GitHub](https://github.com/) with:
 
 ``` r
@@ -97,18 +98,19 @@ devtools::install_github("aleemon/nemwebR")
 ```
 ## Example
 
-A (very) basic example of fetching pricing data:
+A (very) basic example of fetching pricing data across for a given period:
 
-```{r example}
+```{r example, warning=FALSE, message=FALSE}
 library(nemwebR)
-library(purrr)
+library(tidyverse) # To grab purrr, stringr and the pipe
 
-## fetch 30-minute pricing data for the first 3 months of 2020
-input <- seq(20200101, 20200301, by = 100)
 
-prices_q1_2020 <- map_dfr(input, nemwebR_archive_tradingprice)
+## Fetch 30-minute pricing for late 2019, early 2020
+input <- seq.Date(as.Date("2019-11-01"), as.Date("2020-02-01"), by = "month") %>% str_remove_all("-") %>% str_sub(1, 6)
 
-head(prices_q1_2020)
+example_prices <- map_dfr(input, nemwebR_archive_tradingprice)
+
+head(example_prices)
 
 ```
 
@@ -117,15 +119,6 @@ head(prices_q1_2020)
 
 nemwebR is under active development and features may be added or removed. There are number of obvious areas for improvement, but the core functions are sufficient for many analysis applications.
 
-Future improvements:
-
-* Speed improvements -- the functions are currently built on the base `read.csv()` function which is significantly slower than either `dplyr::read_csv()` or `data.table::fread()`. Unfortunately these functions don't play nice with the awkward formatting of AEMO csv files.
-
-* Efficiently pulling in report data from across the archive and current datasets
-
-* Change the datestring entry over to a more logical YYYYMM format
-
-* Improve the error handling and error messaging
 
 
 ### Future Datasets
