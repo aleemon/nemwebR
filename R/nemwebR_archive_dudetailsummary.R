@@ -89,7 +89,7 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
 
 
   ## Filter for current units only
-  data_file <- dplyr::filter(data_file, END_DATE > lubridate::ymd(datestring))
+  data_file <- dplyr::filter(data_file, END_DATE > lubridate::ymd(stringr::str_c(datestring, "01")))
 
 
   return(data_file)
