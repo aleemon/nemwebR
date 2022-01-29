@@ -63,10 +63,24 @@ nemwebR_archive_dudetail <- function(datestring) {
                                       format = "%Y/%m/%d %H:%M:%S")
 
 
+
+  ## Check if all columns exist, add dummy columns into the data
+  missing_columns <- setdiff(
+    c("MAXRATEOFCHANGEUP", "MAXRATEOFCHANGEDOWN"),
+    colnames(data_file)
+  )
+
+  if(length(missing_columns != 0)) {
+    data_file[ , missing_columns] <- NA
+  }
+
+
   data_file <- data_file %>%
     dplyr::mutate(dplyr::across(
       .cols = c(VERSIONNO, VOLTLEVEL, REGISTEREDCAPACITY, MAXCAPACITY, MAXRATEOFCHANGEUP, MAXRATEOFCHANGEDOWN),
-      .fns = as.numeric))
+      .fns = as.numeric
+      )
+    )
 
   # Filter only the most recent registration details (should be 1:1 DUID to row relationship)
   data_file <- data_file %>%

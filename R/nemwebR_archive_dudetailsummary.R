@@ -62,9 +62,9 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
                                       tz = "Australia/Brisbane",
                                       format = "%Y/%m/%d %H:%M:%S")
 
-  ## Older files only have 19 columns, the newer files have 24 columns. At least the column names are consistent
 
-  ## Check is column exists, add a dummy column into the data
+  ## Older files only have 19 columns, the newer files have 24 columns. At least the column names are consistent
+  ## Check if all columns exist, add dummy columns into the data
   missing_columns <- setdiff(
     c("MIN_RAMP_RATE_UP", "MIN_RAMP_RATE_DOWN", "MAX_RAMP_RATE_UP", "MAX_RAMP_RATE_DOWN", "IS_AGGREGATED"),
     colnames(data_file)
@@ -78,7 +78,8 @@ nemwebR_archive_dudetailsummary <- function(datestring) {
   data_file <- data_file %>% dplyr::mutate(
     dplyr::across(
       .cols = c(TRANSMISSIONLOSSFACTOR, DISTRIBUTIONLOSSFACTOR, MINIMUM_ENERGY_PRICE, MAXIMUM_ENERGY_PRICE,
-                MIN_RAMP_RATE_UP, MIN_RAMP_RATE_DOWN, MAX_RAMP_RATE_UP, MAX_RAMP_RATE_DOWN, IS_AGGREGATED)
+                MIN_RAMP_RATE_UP, MIN_RAMP_RATE_DOWN, MAX_RAMP_RATE_UP, MAX_RAMP_RATE_DOWN, IS_AGGREGATED),
+      .fns = as.numeric
       )
     )
 
