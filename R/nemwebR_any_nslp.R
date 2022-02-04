@@ -184,18 +184,21 @@ nemwebR_any_nslp <- function(year) {
 
 
     #! Of course AEMO changed the fucking date formats, didn't they.
-
+      # Might need to review and check that all years are consistent.
     ## Fix the dates
     datdataframe$SettlementDate <- as.POSIXct(datdataframe$SettlementDate,
                                               timezone = "Australia/Brisbane",
-                                              format = "%d/%m/%Y")
+                                              format = "%Y/%m/%d")
+
+
+
 
 
     #! R is importing the data without seconds, weirdly
     #! Could try explicitly defining the column type
     datdataframe$CreationDT <- as.POSIXct(datdataframe$CreationDT,
                                           timezone = "Australia/Brisbane",
-                                          format = "%d/%m/%Y %H:%M")
+                                          format = "%Y/%m/%d %H:%M:%S")
 
 
     ## Convert to from wide NEM12 format to long flat format
